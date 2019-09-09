@@ -15,6 +15,16 @@ LOCKFILE = PROGDIR + '/lockepaper'
 NODEDIR = config.get('PATH', 'NODEDIR')
 LOGFILE = NODEDIR + '/logs/bitcoinj_startup.log'
 
+PROGVER = config.get('PATH', 'PROGVER')
+PTARMVER = config.get('PATH', 'PTARMVER')
+BINVER = config.get('PATH', 'BINVER')
+EPAPERVER = config.get('PATH', 'EPAPERVER')
+UARTVER = config.get('PATH', 'UARTVER')
+WEBVER = config.get('PATH', 'WEBVER')
+
+DISP_Y = 40
+FONT_HEIGHT = 16
+
 UPDATE_NONE = 0
 UPDATE_STOP = 1
 UPDATE_CONT = 2
@@ -42,8 +52,52 @@ def main():
     font = ImageFont.truetype('/usr/share/fonts/truetype/DejaVuSans-Bold.ttf', 13)
     prev_info = ''
     info = ''
-    loc_y = 40
+    loc_y = DISP_Y
     loc_x = 0
+
+    ver = ''
+    draw.text((loc_x, loc_y), 'Version:', font=font, fill=0)
+    loc_y += FONT_HEIGHT
+    with open(PROGVER) as f:
+        ver = f.read()
+        draw.text((loc_x, loc_y), '  ' + ver, font=font, fill=0)
+        loc_y += FONT_HEIGHT
+
+    draw.text((loc_x, loc_y), 'ptarmigan:', font=font, fill=0)
+    loc_y += FONT_HEIGHT
+    with open(PTARMVER) as f:
+        ver = f.read()
+        draw.text((loc_x, loc_y), '  ' + ver, font=font, fill=0)
+        loc_y += FONT_HEIGHT
+
+    draw.text((loc_x, loc_y), 'bin:', font=font, fill=0)
+    loc_y += FONT_HEIGHT
+    with open(BINVER) as f:
+        ver = f.read()
+        draw.text((loc_x, loc_y), '  ' + ver, font=font, fill=0)
+        loc_y += FONT_HEIGHT
+
+    draw.text((loc_x, loc_y), 'epaper:', font=font, fill=0)
+    loc_y += FONT_HEIGHT
+    with open(EPAPERVER) as f:
+        ver = f.read()
+        draw.text((loc_x, loc_y), '  ' + ver, font=font, fill=0)
+        loc_y += FONT_HEIGHT
+
+    draw.text((loc_x, loc_y), 'uart:', font=font, fill=0)
+    loc_y += FONT_HEIGHT
+    with open(UARTVER) as f:
+        ver = f.read()
+        draw.text((loc_x, loc_y), '  ' + ver, font=font, fill=0)
+        loc_y += FONT_HEIGHT
+
+    draw.text((loc_x, loc_y), 'web:', font=font, fill=0)
+    loc_y += FONT_HEIGHT
+    with open(WEBVER) as f:
+        ver = f.read()
+        draw.text((loc_x, loc_y), '  ' + ver, font=font, fill=0)
+        loc_y += FONT_HEIGHT
+
     while True:
         prev_info = info
         info = ''
@@ -69,7 +123,7 @@ def main():
             disp = 0
             if loc_y > epd.height - 30:
                 # 次列 or frame更新
-                loc_y = 40
+                loc_y = DISP_Y
                 if loc_x == 0:
                     # 次列
                     loc_x = epd.width / 2
@@ -86,7 +140,7 @@ def main():
                 epd.smart_update(image)
             elif disp == 1:
                 epd.display_frame(image)
-            loc_y += 16
+            loc_y += FONT_HEIGHT
 
             print(".", end="")
             sys.stdout.flush()
