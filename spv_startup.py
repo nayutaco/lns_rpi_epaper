@@ -96,7 +96,7 @@ def main():
     with open(WEBVER) as f:
         ver = f.read()
         draw.text((loc_x, loc_y), '  ' + ver, font=font, fill=0)
-        loc_y += FONT_HEIGHT
+        loc_y += FONT_HEIGHT * 2
 
     while True:
         prev_info = info
