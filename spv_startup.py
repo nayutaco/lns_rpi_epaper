@@ -22,6 +22,8 @@ EPAPERVER = config.get('PATH', 'EPAPERVER')
 UARTVER = config.get('PATH', 'UARTVER')
 WEBVER = config.get('PATH', 'WEBVER')
 
+UPDATE_PERIOD = 5000
+
 DISP_Y = 40
 FONT_HEIGHT = 16
 
@@ -146,7 +148,7 @@ def main():
             sys.stdout.flush()
         if update == UPDATE_STOP:
             break
-        epd.delay_ms(1000)
+        epd.delay_ms(UPDATE_PERIOD)
 
     epd.sleep()
     print("!")
