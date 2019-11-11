@@ -3,6 +3,7 @@ from rpi_epd2in7_partial.epd import EPD
 from PIL import Image
 from PIL import ImageFont
 from PIL import ImageDraw
+import os
 import sys
 import configparser
 import fasteners
@@ -12,6 +13,7 @@ config = configparser.ConfigParser()
 config.read('/home/pi/Prog/bin/rpi_config.ini')
 PROGDIR = config.get('PATH', 'PROGDIR')
 LOCKFILE = PROGDIR + '/lockepaper'
+NOEPAPER = config.get('DISP', 'NOEPAPER')
 NODEDIR = config.get('PATH', 'NODEDIR')
 LOGFILE = NODEDIR + '/logs/bitcoinj_startup.log'
 
@@ -33,6 +35,9 @@ UPDATE_CONT = 2
 
 
 def main():
+    if os.path.isfile(NOEPAPER):
+        print('no epaper mode')
+        return
     lock = fasteners.InterProcessLock(LOCKFILE)
     if not lock.acquire():
         print('now using')
